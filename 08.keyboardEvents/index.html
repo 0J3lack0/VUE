@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keyboard Events</title>
+    <!-- Bir html tag'inin varsayılan davranışını yapmasını istemiyorsak veya ona bir kısıtlama (ek bir özellikte olabilir) getirmek istiyorsak kullanacağımız şey EVENT MODIFIERS'dır.  -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Keyboard Events (Klavye eventlarını yakalama)</h1>
+      <label for="name">İsim:</label>
+      <!-- İsim inputuna bir şey yazılıp enter'a basıldığında  catchName fonksiyonu çağırılır. Dilersek bir önceki derste öğrendiğimiz event modifiersları çeşitlendirebiliriz. Burada istersen v-on:keyup.enter yerine v-on:keyup.alt.enter yapıp kullanıcı alt ve enter tuşlarına bastığında fonksiyonun çağırılmasını sağlayabiliriz! -->
+      <input type="text" v-on:keyup.enter="catchName" />
+      <label for="age">Yaş:</label>
+      <!-- Yaş inputuna her basılan tuşta catchAge fonksiyonu çağırılır -->
+      <input type="text" v-on:keyup="catchAge" />
+    </div>
+  </body>
+  <script src="app.js"></script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Modifiers</title>
+    <!-- Bir html tag'inin varsayılan davranışını yapmasını istemiyorsak veya ona bir kısıtlama (ek bir özellikte olabilir) getirmek istiyorsak kullanacağımız şey EVENT MODIFIERS'dır.  -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Events (Etkinlikler)</h1>
+      <p>Age: {{age}}</p>
+      <!-- Yaşın sadece 1 kez arttırılmasını istiyorsak; -->
+      <button v-on:click.once="age++">Age +</button>
+      <button v-on:click="age--">Age -</button>
+
+      <p>Budget: {{budget}}</p>
+      <h10>fonksiyon ile azaltıp arttırma</h10>
+      <br />
+      <button v-on:click="budgetIncrease(budget)">Budget + 30%</button>
+      <button v-on:click="budgetDecrease(budget)">Budget - 30%</button>
+
+      <p>Other Age: {{ageNew}}</p>
+      <button v-on:click="plusAge10(10)">Other Age +10</button>
+      <button v-on:click="minusAge10(10)">Other Age -10</button>
+
+      <div id="canvas" v-on:mousemove="updateXY">x: {{x}} y: {{y}}</div>
+      <!-- Örneğin linkin tıklanmasını istemiyoruz! -->
+      <a v-on:click.prevent="clickLink" href="https://www.google.com">GOOGLE</a>
+    </div>
+  </body>
+  <script src="app.js"></script>
+</html>

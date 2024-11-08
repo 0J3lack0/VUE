@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computed Properties</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Computed Properties (işlenmiş özellikler)</h1>
+      <h3>method ile yapılan yöntem!</h3>
+      <button v-on:click="a++">A'ya 1 ekle</button>
+      <button v-on:click="b++">B'ye 1 ekle</button>
+
+      <p>A: {{a}}</p>
+      <p>B: {{b}}</p>
+
+      <p>Yaş + A = {{aYaEkle()}}</p>
+      <p>Yaş + B = {{bYeEkle()}}</p>
+      <hr />
+      <h3>computed ile yapılan yöntem!</h3>
+      <button v-on:click="a++">A'ya 1 ekle</button>
+      <button v-on:click="b++">B'ye 1 ekle</button>
+
+      <p>A: {{a}}</p>
+      <p>B: {{b}}</p>
+      <!-- Burada fonksiyon çağırılırken parantez kullanılmaz aksi halde methods içerisindeki fonksiyonları arayacaktır! -->
+      <p>Yaş + A = {{aYaEkleComp}}</p>
+      <p>Yaş + B = {{bYeEkleComp}}</p>
+      <hr />
+    </div>
+  </body>
+  <script src="app.js"></script>
+</html>

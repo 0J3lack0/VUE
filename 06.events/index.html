@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Events (Etkinlikler)</h1>
+      <p>Age: {{age}}</p>
+      <button v-on:click="age++">Age +</button>
+      <button v-on:click="age--">Age -</button>
+
+      <p>Budget: {{budget}}</p>
+      <h10>fonksiyon ile azaltıp arttırma</h10>
+      <br />
+      <button v-on:click="budgetIncrease(budget)">Budget + 30%</button>
+      <button v-on:click="budgetDecrease(budget)">Budget - 30%</button>
+
+      <p>Other Age: {{ageNew}}</p>
+      <button v-on:click="plusAge10(10)">Other Age +10</button>
+      <button v-on:click="minusAge10(10)">Other Age -10</button>
+
+      <div id="canvas" v-on:mousemove="updateXY">x: {{x}} y: {{y}}</div>
+    </div>
+  </body>
+  <script src="app.js"></script>
+</html>

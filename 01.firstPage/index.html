@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js Test</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="ilk-uygulama">
+      <h2>{{ilkDegisken}}</h2>
+    </div>
+  </body>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          ilkDegisken: "Welcome Vue.js",
+        };
+      },
+    }).mount("#ilk-uygulama");
+  </script>
+</html>
