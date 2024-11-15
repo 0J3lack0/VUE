@@ -9,13 +9,16 @@ const vRainbow = {
     <div class="dashboard">
       <div class="search">
         <input
+          class="form-control"
           style="width: 500px"
           @input="printInputChars"
           type="text"
           v-model="keyword"
           placeholder="Please write a City name!"
         />
-        <button color="primary" v-on:click="requestWeatherApi(cityLat, cityLon)">Search</button>
+        <button class="btn btn-primary" v-on:click="requestWeatherApi(cityLat, cityLon)">
+          Search
+        </button>
         <!-- <button color="success">Add Favorite</button> -->
       </div>
       <div class="dropdown-content">
@@ -25,48 +28,83 @@ const vRainbow = {
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="dashboard" v-show="!cardHidden">
-    <h2 class="title-weather">Weather Status for {{ keyword }}</h2>
-    <div class="dashboard2">
-      <img
-        class="icon"
-        :src="`https://openweathermap.org/img/wn/${weatherIcon}@2x.png`"
-        alt="Weather Icon"
-      />
-      <div class="description">
-        {{ weatherDescription }}
+      <div class="dashboard" v-show="!cardHidden">
+        <h2 class="title-weather">Weather Status for {{ keyword }}</h2>
+        <div class="dashboard2">
+          <img
+            class="icon"
+            :src="`https://openweathermap.org/img/wn/${weatherIcon}@2x.png`"
+            alt="Weather Icon"
+          />
+          <div class="description">
+            {{ weatherDescription }}
+          </div>
+        </div>
+        <div>
+          <hr />
+          <div class="temp text-center fw-bold">
+            Temperature : {{ weatherTemp }}&deg;C
+            <hr />
+          </div>
+        </div>
+        <div>
+          <div class="humidity text-center fw-bold">
+            Humidity
+            {{ weatherHumidity }}%
+            <hr />
+            <button class="btn btn-success" v-on:click="addFavorite">Add Favorite</button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <hr />
-      <div class="temp">
-        Temperature : {{ weatherTemp }}&deg;C
-        <hr />
-      </div>
-    </div>
-    <div>
-      <div class="humidity">
-        Humidity
-        {{ weatherHumidity }}%
-        <hr />
-        <button v-on:click="addFavorite">Add Favorite</button>
-      </div>
-    </div>
-  </div>
-  <div class="dashboard" v-if="favoriteCities.length > 0">
-    <h3 style="text-align: center">Favorite Cities</h3>
-    <div v-for="(city, index) in favoriteCities" :key="index">
-      <div class="favorites-cities" v-on:click="getFavoriteCities(city.lat, city.lon, city.name)">
-        {{ city.name }}
-      </div>
-    </div>
-    <!-- <ul>
+      <h3 style="text-align: center">Favorite Cities</h3>
+      <div
+        class="container text-center btn-group-vertical"
+        role="group"
+        aria-label="Vertical button group"
+        v-if="favoriteCities.length > 0"
+      >
+        <!-- <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-primary">Lesadasdft</button>
+          <button type="button" class="btn btn-primary">Middle</button>
+          <button type="button" class="btn btn-primary">Right</button>
+        </div> -->
+        <div class="container text-center" v-for="(city, index) in favoriteCities" :key="index">
+          <div>
+            <div class="row">
+              <div class="col">
+                <button
+                  v-on:click="getFavoriteCities(city.lat, city.lon, city.name)"
+                  style="width: 100%; float: right"
+                  type="button"
+                  class="btn btn-info"
+                >
+                  {{ city.name }}
+                </button>
+              </div>
+              <div class="col">
+                <!-- <button v-on:click="backgroundChange">change background</button> -->
+              </div>
+              <div class="col">
+                <button
+                  v-on:click="deleteFavorite(index)"
+                  style="position: absolute; right: 0px"
+                  type="button"
+                  class="btn btn-danger"
+                >
+                  X
+                </button>
+              </div>
+              <hr />
+            </div>
+          </div>
+        </div>
+        <!-- <ul>
       <li v-for="(city, index) in favoriteCities" :key="index">
         {{ city.name }} ({{ city.lat }}, {{ city.lon }})
       </li>
     </ul> -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -115,8 +153,8 @@ export default {
         this.dropDown = true
         try {
           const response = await axios.post(
-            this.BASE_URL, // BASE_URL yerine gerçek URL
-            { city_name: this.keyword }, // charValue yerine this.keyword kullanılmalı
+            this.BASE_URL,
+            { city_name: this.keyword },
             {
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -185,22 +223,26 @@ export default {
       console.log('City Longitude:', city.lon) // Boylam
     },
     addFavorite() {
-      // Örnek şehir verisi (bu veriler API'den veya dışarıdan alınabilir)
       const city = {
         name: this.selectedCity,
         lat: this.cityLat,
         lon: this.cityLon,
       }
 
-      // Yeni şehir bilgilerini favoriteCities listesine ekliyoruz
       this.favoriteCities.push(city)
 
-      // Yeni favori şehirleri localStorage'a kaydediyoruz
+      localStorage.setItem('favoriteCities', JSON.stringify(this.favoriteCities))
+    },
+    deleteFavorite(index) {
+      this.favoriteCities.splice(index, 1)
       localStorage.setItem('favoriteCities', JSON.stringify(this.favoriteCities))
     },
     getFavoriteCities(lat, lon, name) {
       this.keyword = name
       this.requestWeatherApi(lat, lon)
+    },
+    backgroundChange() {
+      document.body.style.backgroundColor = 'yellow'
     },
   },
 
@@ -215,12 +257,16 @@ export default {
     //   console.log(this.keyword);
     // },
   },
+  mounted() {},
 }
 </script>
 
-<style scoped>
+<style>
+body {
+  /* background-color:; */
+}
+
 .main {
-  /* backgroundImage: backgroundImage; */
   background-size: 'cover, contain';
   background-position: 'center, center';
   height: '100vh';
@@ -239,12 +285,11 @@ export default {
 }
 
 .dashboard2 {
-  /* Flexbox kullanarak içeriği yatay ve dikey merkezle */
   display: flex;
-  flex-direction: column; /* Dikey düzen */
-  align-items: center; /* Yatayda merkezleme */
-  justify-content: center; /* Dikeyde merkezleme */
-  text-align: center; /* Yazıların merkezlenmesi */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .search {
@@ -291,7 +336,7 @@ export default {
   font-weight: bold;
   font-size: 1.2em;
 }
-
+/*
 .temp {
   text-align: center;
   font-weight: bold;
@@ -302,7 +347,7 @@ export default {
   text-align: center;
   font-weight: bold;
   font-size: 1.2em;
-}
+} */
 
 .favorites-cities {
   border: 1px solid #f8f8f800;
