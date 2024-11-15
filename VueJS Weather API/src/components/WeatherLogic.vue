@@ -29,7 +29,7 @@ const vRainbow = {
         </div>
       </div>
       <div class="dashboard" v-show="!cardHidden">
-        <h2 class="title-weather">Weather Status for {{ keyword }}</h2>
+        <h2 class="title-weather">Weather Status for {{ selectedCity }}</h2>
         <div class="dashboard2">
           <img
             class="icon"
@@ -120,6 +120,7 @@ export default {
     return {
       keyword: '',
       citiesData: null,
+      selectedCity: '',
       cityLat: '',
       cityLon: '',
       BASE_URL: 'http://localhost/get_city.php',
@@ -214,10 +215,10 @@ export default {
     },
     setCityName: function (city) {
       this.dropDown = false
-      this.selectedCity = city.name
       this.keyword = city.name
       this.cityLat = city.lat
       this.cityLon = city.lon
+      this.selectedCity = city.name
       console.log('Selected city:', city.name)
       console.log('City Latitude:', city.lat) // Enlem
       console.log('City Longitude:', city.lon) // Boylam
@@ -239,6 +240,7 @@ export default {
     },
     getFavoriteCities(lat, lon, name) {
       this.keyword = name
+      this.selectedCity = name
       this.requestWeatherApi(lat, lon)
     },
     backgroundChange() {
