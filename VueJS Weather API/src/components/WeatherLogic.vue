@@ -16,7 +16,7 @@ const vRainbow = {
           v-model="keyword"
           placeholder="Please write a City name!"
         />
-        <button class="btn btn-primary" v-on:click="requestWeatherApi(cityLat, cityLon)">
+        <button class="btn btn-primary" v-on:click="requestWeatherApi(cityLat, cityLon, keyword)">
           Search
         </button>
         <!-- <button color="success">Add Favorite</button> -->
@@ -176,7 +176,7 @@ export default {
         this.citiesData = null
       }
     },
-    async requestWeatherApi(lat, lon) {
+    async requestWeatherApi(lat, lon, city) {
       if (this.keyword.length === 0) {
         alert('Şehir ismi boş olamaz!')
       } else if (lat.length === 0 || lon.length === 0) {
@@ -195,6 +195,7 @@ export default {
           this.weatherDescription = response.data.weather[0].description.replace(/\b\w/g, (char) =>
             char.toUpperCase(),
           )
+          this.selectedCity = city
 
           this.backgroundChange(response.data.weather[0].main)
           console.log(
@@ -221,7 +222,6 @@ export default {
       this.keyword = city.name
       this.cityLat = city.lat
       this.cityLon = city.lon
-      this.selectedCity = city.name
       console.log('Selected city:', city.name)
       console.log('City Latitude:', city.lat) // Enlem
       console.log('City Longitude:', city.lon) // Boylam
@@ -244,7 +244,7 @@ export default {
     getFavoriteCities(lat, lon, name) {
       this.keyword = name
       this.selectedCity = name
-      this.requestWeatherApi(lat, lon)
+      this.requestWeatherApi(lat, lon, name)
     },
     backgroundChange(wheaterCondition) {
       if (wheaterCondition === 'Clear') {
@@ -262,7 +262,8 @@ export default {
       } else if (
         wheaterCondition === 'Haze' ||
         wheaterCondition === 'Mist' ||
-        wheaterCondition === 'Smoke'
+        wheaterCondition === 'Smoke' ||
+        wheaterCondition === 'Fog'
       ) {
         document.body.style.backgroundImage = "url('./src/images/haze.gif')"
       } else {
