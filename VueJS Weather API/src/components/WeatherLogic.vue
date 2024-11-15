@@ -11,7 +11,7 @@ const vRainbow = {
         <input
           class="form-control"
           style="width: 500px"
-          @input="printInputChars"
+          v-on:input="printInputChars"
           type="text"
           v-model="keyword"
           placeholder="Please write a City name!"
@@ -138,6 +138,7 @@ export default {
   },
   created() {
     // Sayfa yüklendiğinde, localStorage'dan favori şehirleri alıyoruz
+    document.body.style.backgroundImage = "url('./src/images/background.gif')"
     const storedCities = localStorage.getItem('favoriteCities')
     if (storedCities) {
       // Eğer favori şehirler varsa, onları JSON formatından çözümlüyoruz
@@ -194,6 +195,8 @@ export default {
           this.weatherDescription = response.data.weather[0].description.replace(/\b\w/g, (char) =>
             char.toUpperCase(),
           )
+
+          this.backgroundChange(response.data.weather[0].main)
           console.log(
             'cardHidden: ',
             this.cardHidden,
@@ -243,8 +246,28 @@ export default {
       this.selectedCity = name
       this.requestWeatherApi(lat, lon)
     },
-    backgroundChange() {
-      document.body.style.backgroundColor = 'yellow'
+    backgroundChange(wheaterCondition) {
+      if (wheaterCondition === 'Clear') {
+        document.body.style.backgroundImage = "url('./src/images/clear.gif')"
+      } else if (wheaterCondition === 'Clouds') {
+        document.body.style.backgroundImage = "url('./src/images/cloud.gif')"
+      } else if (wheaterCondition === 'Snow') {
+        document.body.style.backgroundImage =
+          "url('./src/images/snow.gif'), url('./src/images/snow_background.jpg')"
+      } else if (wheaterCondition === 'Rain' || wheaterCondition === 'Drizzle') {
+        document.body.style.backgroundImage =
+          "url('./src/images/rain.gif'), url('./src/images/rain_background.jpg')"
+      } else if (wheaterCondition === 'Thunderstorm') {
+        document.body.style.backgroundImage = "url('./src/images/storm.gif')"
+      } else if (
+        wheaterCondition === 'Haze' ||
+        wheaterCondition === 'Mist' ||
+        wheaterCondition === 'Smoke'
+      ) {
+        document.body.style.backgroundImage = "url('./src/images/haze.gif')"
+      } else {
+        document.body.style.backgroundImage = "url('./src/images/background.gif')"
+      }
     },
   },
 
@@ -265,9 +288,8 @@ export default {
 
 <style>
 body {
-  /* background-color:; */
+  background-size: cover;
 }
-
 .main {
   background-size: 'cover, contain';
   background-position: 'center, center';
